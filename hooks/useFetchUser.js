@@ -1,26 +1,18 @@
 import useLoginStore from "../redux/loginStore";
-import { useEffect, useState } from "react";
-import { fetchUser } from "../api/api";
-import useUserStore from "../redux/userStore";
+import {useQuery} from "@tanstack/react-query";
+import axiosInstance from "../api/axiosInstance";
 
-const useFetchUser = (props) => {
-    const { isAuthenticated, accessToken } = useLoginStore();
-    const [data, setData] = useState(null)
-    const { setUser } = useUserStore();
+const useFetchUser = () => {
+  const {isAuthenticated, accessToken} = useLoginStore();
+  const {data} = useQuery({
+    queryKey: ['userInfo'],
+    queryFn: async () => {
+      return axiosInstance.get('https://www.googleapis.com/oauth2/v2/userinfo',)
+    },
+    enabled: isAuthenticated
+  })
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (isAuthenticated) {
-                const data = await fetchUser()
-                setData(data?.data)
-                const info = data?.data
-                setUser({ name: info.name, email: info.email, picture: info.picture })
-            }
-        }
-        fetchData()
-    }, [isAuthenticated]);
-
-    return data?.data || {}
+  return data?.data || {}
 }
 
 export default useFetchUser;
