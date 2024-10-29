@@ -8,14 +8,16 @@ import { cn } from "../lib/utils";
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger, } from "@/components/ui/popover"
+import useLoginStore from "../redux/loginStore";
 
 export default function DatePicker({ setDate }) {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString())
     const [isOpen, setOpen] = useState(false);
+    const { isAuthenticated, clearLogin } = useLoginStore();
 
     return (
         <Popover open={isOpen} onOpenChange={() => setOpen(!isOpen)}>
-            <PopoverTrigger asChild>
+            <PopoverTrigger disabled={!isAuthenticated} asChild>
                 <Button
                     variant={"outline"}
                     className={cn(
