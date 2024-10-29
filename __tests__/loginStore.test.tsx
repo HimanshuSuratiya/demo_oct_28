@@ -6,13 +6,13 @@ beforeEach(() => {
 });
 
 describe('useLoginStore', () => {
-    it('should initialize with isAuthenticated as false and accessToken as null', () => {
+    test('should initialize with isAuthenticated as false and accessToken as null', () => {
         const { result } = renderHook(() => useLoginStore());
         expect(result.current.isAuthenticated).toBe(false);
         expect(result.current.accessToken).toBeNull();
     });
 
-    it('should toggle isAuthenticated state when toggleAuth is called', () => {
+    test('should toggle isAuthenticated state when toggleAuth is called', () => {
         const { result } = renderHook(() => useLoginStore());
         act(() => {
             result.current.toggleAuth();
@@ -24,7 +24,7 @@ describe('useLoginStore', () => {
         expect(result.current.isAuthenticated).toBe(false);
     });
 
-    it('should set the accessToken when setAccessToken is called', () => {
+    test('should set the accessToken when setAccessToken is called', () => {
         const { result } = renderHook(() => useLoginStore());
         const testToken = '12345';
         act(() => {
@@ -33,7 +33,7 @@ describe('useLoginStore', () => {
         expect(result.current.accessToken).toBe(testToken);
     });
 
-    it('should clear isAuthenticated and accessToken when clearLogin is called', () => {
+    test('should clear isAuthenticated and accessToken when clearLogin is called', () => {
         const { result } = renderHook(() => useLoginStore());
         const testToken = '12345';
         act(() => {
@@ -49,7 +49,7 @@ describe('useLoginStore', () => {
         expect(result.current.accessToken).toBeNull();
     });
 
-    it('should persist isAuthenticated and accessToken when set and retrieve them upon remounting', () => {
+    test('should persist isAuthenticated and accessToken when set and retrieve them upon remounting', () => {
         const { result, unmount } = renderHook(() => useLoginStore());
         const testToken = '12345';
         act(() => {

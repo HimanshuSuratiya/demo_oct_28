@@ -6,14 +6,14 @@ beforeEach(() => {
 });
 
 describe('useUserStore', () => {
-    it('should initialize with an empty user', () => {
+    test('should initialize with an empty user', () => {
         const { result } = renderHook(() => useUserStore());
         expect(result.current.name).toBe('');
         expect(result.current.email).toBe('');
         expect(result.current.picture).toBe('');
     });
 
-    it('should update the user details when setUser is called', () => {
+    test('should update the user details when setUser is called', () => {
         const { result } = renderHook(() => useUserStore());
         const newUser = {
             name: 'Himanshu Suratiya',
@@ -28,7 +28,7 @@ describe('useUserStore', () => {
         expect(result.current.picture).toBe(newUser.picture);
     });
 
-    it('should persist the user details when setUser is called', () => {
+    test('should persist the user details when setUser is called', () => {
         const { result, unmount } = renderHook(() => useUserStore());
         const newUser = {
             name: 'Himanshu Suratiya',
