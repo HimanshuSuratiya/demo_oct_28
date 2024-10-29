@@ -25,9 +25,9 @@ describe('CreateEventForm', () => {
         render(<CreateEventForm />);
         const button = screen.getByRole('button', { name: /create event/i });
         fireEvent.click(button);
-        fireEvent.change(screen.getByLabelText(/summary/i), { target: { value: 'Test Event' } });
-        fireEvent.change(screen.getByLabelText(/description/i), { target: { value: 'Testing the event creation' } });
-        fireEvent.change(screen.getByLabelText(/guest email/i), { target: { value: 'guest@example.com' } });
+        fireEvent.change(screen.getByLabelText(/summary/i), { target: { value: 'Himanshu Test Event Summary' } });
+        fireEvent.change(screen.getByLabelText(/description/i), { target: { value: 'Himanshu Test Event Description' } });
+        fireEvent.change(screen.getByLabelText(/guest email/i), { target: { value: 'Himanshu84688@gmail.com' } });
         const submitButton = screen.getByTestId('create-event-submit');
         fireEvent.click(submitButton);
 
@@ -35,10 +35,10 @@ describe('CreateEventForm', () => {
             expect(axiosInstance.post).toHaveBeenCalledWith(
                 'https://www.googleapis.com/calendar/v3/calendars/primary/events',
                 expect.objectContaining({
-                    summary: 'Test Event',
-                    description: 'Testing the event creation',
+                    summary: 'Himanshu Test Event Summary',
+                    description: 'Himanshu Test Event Description',
                     attendees: expect.arrayContaining([
-                        expect.objectContaining({ email: 'guest@example.com' }),
+                        expect.objectContaining({ email: 'Himanshu84688@gmail.com' }),
                     ]),
                 })
             );
@@ -50,9 +50,9 @@ describe('CreateEventForm', () => {
         render(<CreateEventForm />);
         const button = screen.getByRole('button', { name: /create event/i });
         fireEvent.click(button);
-        fireEvent.change(screen.getByLabelText(/summary/i), { target: { value: 'Test Event' } });
-        fireEvent.change(screen.getByLabelText(/description/i), { target: { value: 'Testing error handling' } });
-        fireEvent.change(screen.getByLabelText(/guest email/i), { target: { value: 'guest@example.com' } });
+        fireEvent.change(screen.getByLabelText(/summary/i), { target: { value: 'Himanshu Test Event Summary' } });
+        fireEvent.change(screen.getByLabelText(/description/i), { target: { value: 'Himanshu Test Event Description' } });
+        fireEvent.change(screen.getByLabelText(/guest email/i), { target: { value: 'Himanshu84688@gmail.com' } });
         const submitButton = screen.getByTestId('create-event-submit');
         fireEvent.click(submitButton);
 

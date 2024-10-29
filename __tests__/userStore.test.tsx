@@ -16,9 +16,9 @@ describe('useUserStore', () => {
     it('should update the user details when setUser is called', () => {
         const { result } = renderHook(() => useUserStore());
         const newUser = {
-            name: 'John Doe',
-            email: 'john.doe@example.com',
-            picture: 'https://example.com/johndoe.jpg',
+            name: 'Himanshu Suratiya',
+            email: 'Himanshu84688@gmail.com',
+            picture: 'https://example.com/himanshu1234.jpg',
         };
         act(() => {
             result.current.setUser(newUser);
@@ -31,9 +31,9 @@ describe('useUserStore', () => {
     it('should persist the user details when setUser is called', () => {
         const { result, unmount } = renderHook(() => useUserStore());
         const newUser = {
-            name: 'Jane Doe',
-            email: 'jane.doe@example.com',
-            picture: 'https://example.com/janedoe.jpg',
+            name: 'Himanshu Suratiya',
+            email: 'Himanshu84688@gmail.com',
+            picture: 'https://example.com/himanshu1234.jpg',
         };
         act(() => {
             result.current.setUser(newUser);
