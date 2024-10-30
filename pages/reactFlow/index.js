@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Page = (props) => {
+const Index = (props) => {
   return <div>React Flow</div>
 }
 
-export default Page;
+export default Index;

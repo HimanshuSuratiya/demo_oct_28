@@ -1,6 +1,6 @@
 import {render, screen, fireEvent, renderHook, act} from '@testing-library/react';
 import '@testing-library/jest-dom';
-import App from '../app';
+import Home from '@/pages/home';
 import useLoginStore from '../redux/loginStore';
 import useFetchUser from '../hooks/useFetchUser';
 
@@ -32,7 +32,7 @@ describe('Home Component', () => {
     }
     expect(result.current.isAuthenticated).toBe(true);
     useFetchUser.mockReturnValue({name: 'Himanshu Suratiya', email: 'himanshu84688@gmail.com'});
-    render(<App/>);
+    render(<Home/>);
     expect(screen.getByText('Himanshu Suratiya')).toBeInTheDocument();
     expect(screen.getByText('himanshu84688@gmail.com')).toBeInTheDocument();
     expect(screen.getByRole('button', {name: /logout/i})).toBeInTheDocument();
@@ -46,9 +46,9 @@ describe('Home Component', () => {
       });
     }
     expect(result.current.isAuthenticated).toBe(true);
-    const {rerender} = render(<App/>);
+    const {rerender} = render(<Home/>);
     useFetchUser.mockReturnValue({name: 'Himanshu Suratiya', email: 'himanshu84688@gmail.com'});
-    rerender(<App/>);
+    rerender(<Home/>);
     expect(screen.queryByText('Himanshu Suratiya')).toBeInTheDocument();
     expect(screen.queryByText('himanshu84688@gmail.com')).toBeInTheDocument();
     expect(screen.queryByRole('button', {name: /logout/i})).toBeInTheDocument();
@@ -68,7 +68,7 @@ describe('Home Component', () => {
     }
     expect(result.current.isAuthenticated).toBe(false);
     useFetchUser.mockReturnValue({name: '', email: ''});
-    render(<App/>);
+    render(<Home/>);
     expect(screen.getByText(/login to view events/i)).toBeInTheDocument();
   });
 });

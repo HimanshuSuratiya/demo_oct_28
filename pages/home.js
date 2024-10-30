@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import {Button} from "@/components/ui/button";
 
 
-const App = () => {
+const Home = () => {
   const {isAuthenticated, clearLogin} = useLoginStore();
   const [eventsDate, setEventsDate] = useState(dayjs().toDate());
 
@@ -50,4 +50,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default Home;
