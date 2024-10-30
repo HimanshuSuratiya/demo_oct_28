@@ -48,9 +48,12 @@ describe('App Component', () => {
     expect(result.current.isAuthenticated).toBe(true);
     const { rerender } = render(<App />);
     useFetchUser.mockReturnValue({ name: 'Himanshu Suratiya', email: 'himanshu84688@gmail.com' });
+    rerender(<App />);
+    expect(screen.queryByText('Himanshu Suratiya')).toBeInTheDocument();
+    expect(screen.queryByText('himanshu84688@gmail.com')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /logout/i })).toBeInTheDocument();
     const logoutButton = screen.getByRole('button', { name: /logout/i });
     fireEvent.click(logoutButton);
-    rerender(<App />);
     expect(screen.queryByText('Himanshu Suratiya')).not.toBeInTheDocument();
     expect(screen.queryByText('himanshu84688@gmail.com')).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /logout/i })).not.toBeInTheDocument();
