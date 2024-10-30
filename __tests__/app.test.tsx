@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, renderHook, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from '@/pages/app';
 import useLoginStore from '../redux/loginStore';
@@ -16,7 +16,6 @@ jest.mock('../components/Events', () => () => (
   <div>Events Component</div>
 ));
 
-jest.mock('../redux/loginStore');
 jest.mock('../hooks/useFetchUser');
 
 describe('App Component', () => {
@@ -25,7 +24,13 @@ describe('App Component', () => {
   });
 
   test('renders user information and logout button when user is authenticated', () => {
-    useLoginStore.mockReturnValue({ isAuthenticated: true, clearLogin: jest.fn() });
+    const { result } = renderHook(() => useLoginStore());
+    if (!result.current.isAuthenticated) {
+      act(() => {
+        result.current.toggleAuth();
+      });
+    }
+    expect(result.current.isAuthenticated).toBe(true);
     useFetchUser.mockReturnValue({ name: 'Himanshu Suratiya', email: 'himanshu84688@gmail.com' });
     render(<App />);
     expect(screen.getByText('Himanshu Suratiya')).toBeInTheDocument();
@@ -34,26 +39,31 @@ describe('App Component', () => {
   });
 
   test('calls clearLogin on clicking logout button', () => {
-    const mockClearLogin = jest.fn();
-    const mockUseLoginStore = jest.fn();
-
-    mockUseLoginStore.mockReturnValueOnce({ isAuthenticated: true, clearLogin: mockClearLogin });
-    useLoginStore.mockImplementation(mockUseLoginStore);
-    useFetchUser.mockReturnValue({ name: 'Himanshu Suratiya', email: 'himanshu84688@gmail.com' });
-
+    const { result } = renderHook(() => useLoginStore());
+    if (!result.current.isAuthenticated) {
+      act(() => {
+        result.current.toggleAuth();
+      });
+    }
+    expect(result.current.isAuthenticated).toBe(true);
     const { rerender } = render(<App />);
+    useFetchUser.mockReturnValue({ name: 'Himanshu Suratiya', email: 'himanshu84688@gmail.com' });
     const logoutButton = screen.getByRole('button', { name: /logout/i });
     fireEvent.click(logoutButton);
-    mockUseLoginStore.mockReturnValueOnce({ isAuthenticated: false, clearLogin: mockClearLogin });
     rerender(<App />);
-    expect(mockClearLogin).toHaveBeenCalledTimes(1);
     expect(screen.queryByText('Himanshu Suratiya')).not.toBeInTheDocument();
     expect(screen.queryByText('himanshu84688@gmail.com')).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /logout/i })).not.toBeInTheDocument();
   });
 
   test('displays a prompt to login to view events when user is not authenticated', () => {
-    useLoginStore.mockReturnValue({ isAuthenticated: false, clearLogin: jest.fn() });
+    const { result } = renderHook(() => useLoginStore());
+    if (result.current.isAuthenticated) {
+      act(() => {
+        result.current.toggleAuth();
+      });
+    }
+    expect(result.current.isAuthenticated).toBe(false);
     useFetchUser.mockReturnValue({ name: '', email: '' });
     render(<App />);
     expect(screen.getByText(/login to view events/i)).toBeInTheDocument();
