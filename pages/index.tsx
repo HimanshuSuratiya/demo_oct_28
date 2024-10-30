@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import App from "./App";
+import App from "./app";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { clientId } from "../lib/constants";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

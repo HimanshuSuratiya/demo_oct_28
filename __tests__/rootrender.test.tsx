@@ -1,8 +1,15 @@
-import {render, screen} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import RootComponentRender from "@/pages/index";
+import dayjs from "dayjs";
+import useLoginStore from '../redux/loginStore';
+import { format } from "date-fns"
 
-test("Check Root Component Render", () => {
-  render(<RootComponentRender/>);
-  const labelElement = screen.getByText(/choose date/i);
-  expect(labelElement.tagName).toBe("LABEL");
-});
+jest.mock('../redux/loginStore');
+
+test("Check choose is now Date and date is disabled if user is not authenticated", () => {
+  useLoginStore.mockReturnValue({ isAuthenticated: false });
+  render(<RootComponentRender />);
+  const button = screen.getByText(format(dayjs().toDate(), "PPP"))
+  expect(button).toBeInTheDocument()
+  expect(button).toHaveAttribute("disabled")
+})
